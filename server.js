@@ -36,11 +36,11 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Root route handler
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/index.html'));
+  res.sendFile(path.join(__dirname, '/frontend/index.html'));
 });
 
 // Ensure uploads directory exists
-const UPLOAD_DIR = path.join(__dirname, 'uploads');
+const UPLOAD_DIR = path.join(__dirname, 'server','uploads');
 await fs.mkdir(UPLOAD_DIR, { recursive: true });
 
 // Multer config
