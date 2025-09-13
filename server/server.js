@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
 });
 
 // Ensure uploads directory exists
-const UPLOAD_DIR = path.join(__dirname, 'server', 'uploads');
+const UPLOAD_DIR = path.join(__dirname, 'uploads');
 await fs.mkdir(UPLOAD_DIR, { recursive: true });
 
 // Multer config
