@@ -39,6 +39,11 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/frontend/index.html'));
 });
 
+// Dashboard route handler
+app.get('/dashboard.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '/frontend/dashboard.html'));
+});
+
 // Ensure uploads directory exists
 const UPLOAD_DIR = path.join(__dirname, 'server','uploads');
 await fs.mkdir(UPLOAD_DIR, { recursive: true });
