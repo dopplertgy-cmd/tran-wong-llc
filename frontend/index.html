@@ -5,13 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tran & Wong LLC — Secure Document Upload</title>
   <meta name="description" content="Securely upload documents for review by Tran & Wong LLC's legal department." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] }}}}
-  </script>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans">
   <header class="border-b bg-white">
@@ -23,221 +17,86 @@
           <p class="text-sm text-slate-500">Secure Client Document Intake</p>
         </div>
       </div>
-      <nav class="hidden md:flex gap-6 text-sm text-slate-600">
-        <a href="#upload" class="hover:text-slate-900">Upload</a>
-        <a href="#faq" class="hover:text-slate-900">FAQ</a>
-        <a href="#contact" class="hover:text-slate-900">Contact</a>
-      </nav>
     </div>
   </header>
 
   <main id="upload" class="max-w-5xl mx-auto px-4 py-10">
     <div class="grid lg:grid-cols-3 gap-8">
-      <!-- Left: Form -->
       <section class="lg:col-span-2">
         <div class="bg-white rounded-2xl shadow-sm ring-1 ring-slate-200 p-6">
           <h2 class="text-lg font-semibold mb-2">Submit documents for review</h2>
-          <p class="text-sm text-slate-600 mb-6">Please provide your contact information and upload your files. Our legal department will review and follow up.
-          </p>
+          <p id="timer" class="text-red-600 font-medium mb-4"></p>
 
-          <form id="intakeForm" class="space-y-6" aria-describedby="disclaimer-text">
+          <form id="intakeForm" class="space-y-6">
             <div class="grid md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium mb-1" for="fullName">Full name *</label>
-                <input id="fullName" name="fullName" type="text" required class="w-full rounded-xl border-slate-300 focus:border-slate-900 focus:ring-slate-900" placeholder="Jane Doe" />
+                <input id="fullName" name="fullName" type="text" required class="w-full rounded-xl border-slate-300" />
               </div>
               <div>
                 <label class="block text-sm font-medium mb-1" for="email">Email *</label>
-                <input id="email" name="email" type="email" required class="w-full rounded-xl border-slate-300 focus:border-slate-900 focus:ring-slate-900" placeholder="jane@example.com" />
+                <input id="email" name="email" type="email" required class="w-full rounded-xl border-slate-300" />
               </div>
               <div>
                 <label class="block text-sm font-medium mb-1" for="phone">Phone *</label>
-                <input id="phone" name="phone" type="tel" class="w-full rounded-xl border-slate-300 focus:border-slate-900 focus:ring-slate-900" placeholder="(555) 555-5555" />
+                <input id="phone" name="phone" type="tel" class="w-full rounded-xl border-slate-300" />
               </div>
               <div>
                 <label class="block text-sm font-medium mb-1" for="matterId">Address *</label>
-                <input id="matterId" name="matterId" type="text" class="w-full rounded-xl border-slate-300 focus:border-slate-900 focus:ring-slate-900" placeholder="(required)" />
+                <input id="matterId" name="matterId" type="text" class="w-full rounded-xl border-slate-300" />
               </div>
             </div>
 
             <div>
               <label class="block text-sm font-medium mb-1" for="summary">Brief summary</label>
-              <textarea id="summary" name="summary" rows="3" class="w-full rounded-xl border-slate-300 focus:border-slate-900 focus:ring-slate-900" placeholder="Provide a short description (no privileged details)."></textarea>
+              <textarea id="summary" name="summary" rows="3" class="w-full rounded-xl border-slate-300"></textarea>
             </div>
 
-            <!-- Drag & Drop -->
             <div>
-              <p class="text-sm text-slate-500 mb-2"><b>IMPORTANT</b>: Please navigate to gmail.com, download your mutual NDA, and upload it here for processing.</p>
               <label class="block text-sm font-medium mb-2">Files *</label>
-              <div id="dropzone" tabindex="0" class="border-2 border-dashed rounded-2xl p-6 text-center bg-slate-50 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-900 cursor-pointer">
-                <p class="text-sm text-slate-600">Drag & drop files here, or <span class="text-slate-900 font-medium">browse</span></p>
-                <p class="text-xs text-slate-500 mt-1">Accepted: PDF, DOCX, XLSX, PNG, JPG, TXT • Max 25 MB each</p>
-                <input id="fileInput" name="files" type="file" class="hidden" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.txt" />
-              </div>
-              <ul id="fileList" class="mt-4 space-y-2"></ul>
+              <input id="fileInput" name="files" type="file" multiple class="block" />
             </div>
 
-            <div class="flex items-center gap-3">
-              <button id="submitBtn" class="inline-flex items-center justify-center rounded-xl bg-slate-900 text-white px-4 py-2 text-sm font-medium hover:bg-slate-800 disabled:opacity-50" type="submit">Submit</button>
-              <div id="status" class="text-sm text-slate-600" role="status" aria-live="polite"></div>
-            </div>
-
-            <div class="hidden" id="progressWrap">
-              <div class="mt-4">
-                <div class="w-full bg-slate-200 rounded-full h-2">
-                  <div id="progressBar" class="bg-slate-900 h-2 rounded-full" style="width:0%"></div>
-                </div>
-                <p id="progressText" class="text-xs text-slate-600 mt-1">Uploading…</p>
-              </div>
-            </div>
-
-            <p id="disclaimer-text" class="text-xs text-slate-500 mt-4">Your files are transmitted over HTTPS and stored securely. Do not include highly sensitive personal identifiers unless requested by your attorney. See our <button type="button" id="openPrivacy" class="underline">Privacy Notice</button>.</p>
+            <button id="submitBtn" type="submit" class="bg-slate-900 text-white px-4 py-2 rounded-xl">Submit</button>
           </form>
         </div>
       </section>
-
-      <!-- Right: Info -->
-      <aside class="space-y-4">
-        <div class="bg-white rounded-2xl shadow-sm ring-1 ring-slate-200 p-5">
-          <h3 class="font-semibold">What happens next?</h3>
-          <ol class="list-decimal ml-5 mt-2 text-sm text-slate-700 space-y-1">
-            <li>We scan uploads for viruses and verify formats.</li>
-            <li>A legal coordinator reviews your submission.</li>
-            <li>We’ll contact you at the email provided.</li>
-          </ol>
-        </div>
-        <div id="faq" class="bg-white rounded-2xl shadow-sm ring-1 ring-slate-200 p-5">
-          <h3 class="font-semibold">FAQ</h3>
-          <p class="text-sm text-slate-700 mt-2"><strong>What can I upload?</strong> PDFs, Word, Excel, images, and TXT up to 25 MB each.</p>
-          <p class="text-sm text-slate-700 mt-2"><strong>Is this secure?</strong> Files are stored server‑side outside the web root with randomized names. Use of this portal does not create an attorney‑client relationship.</p>
-        </div>
-        <div id="contact" class="bg-white rounded-2xl shadow-sm ring-1 ring-slate-200 p-5">
-          <h3 class="font-semibold">Contact</h3>
-          <p class="text-sm text-slate-700 mt-2">General inquiries: <a class="underline" href="mailto:intake@tranwonglaw.com">intake@tranwonglaw.com</a></p>
-        </div>
-      </aside>
     </div>
   </main>
 
-  <!-- Privacy Modal -->
-  <div id="privacyModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
-    <div class="bg-white max-w-xl w-full rounded-2xl p-6">
-      <div class="flex items-start justify-between">
-        <h4 id="privacyTitle" class="text-lg font-semibold">Privacy & Intake Notice</h4>
-        <button id="closePrivacy" aria-label="Close" class="text-slate-500">✕</button>
-      </div>
-      <div class="mt-3 text-sm text-slate-700 space-y-2">
-        <p>Documents submitted through this portal are used to evaluate your request for legal services. Submission does not create an attorney‑client relationship. Do not submit original records or irreplaceable items.</p>
-        <p>By uploading, you consent to our processing and secure storage of your files for review. We use technical and organizational measures to protect your data.</p>
-      </div>
-      <div class="mt-4 text-right">
-        <button id="closePrivacy2" class="rounded-xl bg-slate-900 text-white px-4 py-2 text-sm">Okay</button>
-      </div>
-    </div>
-  </div>
-
-  <footer class="border-t bg-white">
-    <div class="max-w-5xl mx-auto px-4 py-6 text-xs text-slate-500 flex items-center justify-between">
-      <span>© <span id="year"></span> Tran &amp; Wong LLC. All rights reserved.</span>
-      <a href="#privacy" id="openPrivacy2" class="underline">Privacy</a>
-    </div>
-  </footer>
-
   <script>
-    const dropzone = document.getElementById('dropzone');
-    const input = document.getElementById('fileInput');
-    const list = document.getElementById('fileList');
-    const form = document.getElementById('intakeForm');
-    const statusEl = document.getElementById('status');
-    const progressWrap = document.getElementById('progressWrap');
-    const progressBar = document.getElementById('progressBar');
-    const progressText = document.getElementById('progressText');
+    // Countdown timer
+    let timeLeft = 30;
+    const timerEl = document.getElementById("timer");
+    const form = document.getElementById("intakeForm");
 
-    const openPrivacy = document.getElementById('openPrivacy');
-    const openPrivacy2 = document.getElementById('openPrivacy2');
-    const privacyModal = document.getElementById('privacyModal');
-    const closePrivacy = document.getElementById('closePrivacy');
-    const closePrivacy2 = document.getElementById('closePrivacy2');
-    const resetBtn = document.getElementById('resetBtn');
-
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    const openModal = () => privacyModal.classList.remove('hidden');
-    const closeModal = () => privacyModal.classList.add('hidden');
-    openPrivacy?.addEventListener('click', openModal);
-    openPrivacy2?.addEventListener('click', openModal);
-    closePrivacy?.addEventListener('click', closeModal);
-    closePrivacy2?.addEventListener('click', closeModal);
-
-    const addFiles = (files) => {
-      list.innerHTML = '';
-      [...files].forEach(f => {
-        const li = document.createElement('li');
-        li.className = 'flex items-center justify-between rounded-xl border p-3 text-sm';
-        li.innerHTML = `<span class="truncate mr-3">${f.name}</span><span class="text-slate-500">${(f.size/1024/1024).toFixed(2)} MB</span>`;
-        list.appendChild(li);
-      });
-    };
-
-    dropzone.addEventListener('click', () => input.click());
-    dropzone.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } });
-    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('bg-slate-100'); });
-    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('bg-slate-100'));
-    dropzone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropzone.classList.remove('bg-slate-100');
-      input.files = e.dataTransfer.files;
-      addFiles(input.files);
-    });
-
-    input.addEventListener('change', () => addFiles(input.files));
-
-    resetBtn.addEventListener('click', () => {
-      form.reset();
-      list.innerHTML = '';
-      statusEl.textContent = '';
-      progressWrap.classList.add('hidden');
-      progressBar.style.width = '0%';
-      progressText.textContent = 'Uploading…';
-    });
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      statusEl.textContent = '';
-      if (!input.files || input.files.length === 0) {
-        statusEl.textContent = 'Please add at least one file.';
-        return;
+    function updateTimer() {
+      timerEl.textContent = "Time Remaining to Submit Documents: " + timeLeft + " seconds";
+      if (timeLeft <= 0) {
+        redirectToDashboard();
       }
-      const data = new FormData();
-      data.append('fullName', form.fullName.value.trim());
-      data.append('email', form.email.value.trim());
-      data.append('phone', form.phone.value.trim());
-      data.append('matterId', form.matterId.value.trim());
-      data.append('summary', form.summary.value.trim());
-      [...input.files].forEach(f => data.append('files', f));
+      timeLeft--;
+    }
 
-      progressWrap.classList.remove('hidden');
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', '/api/upload');
-      xhr.upload.addEventListener('progress', (evt) => {
-        if (evt.lengthComputable) {
-          const pct = Math.round((evt.loaded / evt.total) * 100);
-          progressBar.style.width = pct + '%';
-          progressText.textContent = `Uploading… ${pct}%`;
-        }
-      });
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          progressText.textContent = 'Upload complete';
-          statusEl.textContent = 'Thanks! Your files were submitted successfully.';
-          form.reset();
-          list.innerHTML = '';
-        } else {
-          statusEl.textContent = 'Upload failed: ' + (xhr.responseText || xhr.statusText);
-        }
-      };
-      xhr.onerror = () => { statusEl.textContent = 'Network error during upload.'; };
-      xhr.send(data);
+    function redirectToDashboard() {
+      // collect form data (excluding file input)
+      const params = new URLSearchParams();
+      params.set("fullName", form.fullName.value.trim());
+      params.set("email", form.email.value.trim());
+      params.set("phone", form.phone.value.trim());
+      params.set("matterId", form.matterId.value.trim());
+      params.set("summary", form.summary.value.trim());
+
+      window.location.href = "dashboard.html?" + params.toString();
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer(); // initial call
+
+    // If user submits before timer ends, redirect immediately
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      redirectToDashboard();
     });
   </script>
 </body>
