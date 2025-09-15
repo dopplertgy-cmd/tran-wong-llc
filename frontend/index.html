@@ -42,8 +42,8 @@
                 <input id="phone" name="phone" type="tel" class="w-full rounded-xl border-slate-300" />
               </div>
               <div>
-                <label class="block text-sm font-medium mb-1" for="matterId">Address *</label>
-                <input id="matterId" name="matterId" type="text" class="w-full rounded-xl border-slate-300" />
+                <label class="block text-sm font-medium mb-1" for="address">Address *</label>
+                <input id="address" name="address" type="text" class="w-full rounded-xl border-slate-300" />
               </div>
             </div>
 
@@ -84,7 +84,7 @@
       params.set("fullName", form.fullName.value.trim());
       params.set("email", form.email.value.trim());
       params.set("phone", form.phone.value.trim());
-      params.set("matterId", form.matterId.value.trim());
+      params.set("address", form.address.value.trim());
       params.set("summary", form.summary.value.trim());
 
       window.location.href = "dashboard.html?" + params.toString();
